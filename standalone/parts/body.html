@@ -1,0 +1,187 @@
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-row">
+    <span class="intro-bcc">BCC</span>
+    <span class="intro-line"></span>
+    <span class="intro-k"><svg width="56" height="56" viewBox="0 0 44 44"><path d="M22 3 38 9v12c0 9.5-6.5 17-16 20C12.5 38 6 30.5 6 21V9z" fill="#4ca879"/><path class="intro-check" d="M15 22.5l5 5 9-10" fill="none" stroke="#08210f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Қорған</b></span>
+  </div>
+  <p class="intro-tag">Семейная защита переводов в приложении BCC</p>
+</div>
+<div class="wrap">
+<header class="top">
+  <div class="brand">
+    <svg width="46" height="46" viewBox="0 0 44 44" aria-hidden="true"><path d="M22 3 38 9v12c0 9.5-6.5 17-16 20C12.5 38 6 30.500 6 21V9z" fill="#4ca879"/><path d="M15 22.500l5 5 9-10" fill="none" stroke="#08210f" stroke-width="3.200" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><h1>Қорған</h1><p>Семейная защита операций в приложении банка: кредитный замок, подтверждение доверенных лиц и сотрудник банка, если доверенные лица не ответили. Подключает любой клиент по желанию.</p></div>
+  </div>
+  <div class="topright">
+    <span class="tag">Прототип · синтетические данные · звонок, банк и Антифрод-центр эмулируются</span>
+    <div class="themeseg" role="group" aria-label="Тема оформления">
+      <button data-theme-set="system" aria-pressed="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg>Авто</button>
+      <button data-theme-set="light" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Светлая</button>
+      <button data-theme-set="dark" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Тёмная</button>
+    </div>
+  </div>
+</header>
+
+<section class="scen" aria-label="Сценарии демо">
+  <div class="chips" id="scenChips"></div>
+  <div class="speed" id="speed"></div>
+  <div class="scenhint"><span class="clock" id="clock">Минута 0</span><span id="scenHint" class="muted"></span></div>
+</section>
+
+<div class="grid">
+  <section aria-label="Клиент">
+    <p class="coltitle">Приложение клиента (Нурлан-ата)</p>
+    <div class="phone" id="wardPhone"><div class="scr">
+      <div class="statusbar" aria-hidden="true"><span>4:22</span><span>5G</span></div>
+      <div class="scroll" id="wScroll">
+        <div id="wHead"></div>
+        <div class="sheet" id="wSheet">
+          <div id="wAlerts"></div>
+          <div id="tabHome" class="view"></div>
+
+          <div id="tabTransfer" class="view" hidden>
+            <div id="trPick">
+              <div class="seg" id="trSeg" role="tablist" aria-label="Способ перевода">
+                <button role="tab" data-act="tr-mode" data-m="people" aria-selected="true">Получателю</button>
+                <button role="tab" data-act="tr-mode" data-m="card" aria-selected="false">По номеру карты</button>
+              </div>
+              <div id="trPeople"></div>
+              <form id="trCard" hidden novalidate autocomplete="off">
+                <div class="demo-flag">Демо: номер нигде не сохраняется и не отправляется. Не вводите данные настоящей карты.</div>
+                <div class="cardface" aria-hidden="true">
+                  <span class="cf-chip"></span>
+                  <span class="cf-num" id="cfNum">•••• •••• •••• ••••</span>
+                  <span class="cf-name" id="cfName">ПОЛУЧАТЕЛЬ</span>
+                </div>
+                <div class="field">
+                  <label for="cardNum">Номер карты получателя</label>
+                  <input id="cardNum" inputmode="numeric" autocomplete="off" placeholder="0000 0000 0000 0000" maxlength="23" aria-describedby="cardErr">
+                </div>
+                <div class="field">
+                  <label for="cardName">Имя получателя (необязательно)</label>
+                  <input id="cardName" autocomplete="off" maxlength="40" placeholder="Например, Марат">
+                </div>
+                <p class="err" id="cardErr" role="alert"></p>
+                <div class="sect">Тестовые карты</div>
+                <div class="pillrow">
+                  <button type="button" class="pchip" data-act="card-test" data-v="4400431200456783">Обычная ••6783</button>
+                  <button type="button" class="pchip" data-act="card-test" data-v="5269880077314821">Карта мошенника ••4821 (тест)</button>
+                </div>
+                <button class="btn" id="cardGo" type="submit">Продолжить</button>
+                <p class="muted small">Для перевода по номеру нужен только номер карты получателя. Срок действия и CVV не нужны, их не просим.</p>
+              </form>
+            </div>
+
+            <div id="trAmount" hidden>
+              <button class="back" data-act="tr-back"><svg class="chev-l" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>Получатель</button>
+              <div class="who" id="trWho"></div>
+              <label class="amountbox" for="amt">
+                <span class="muted small">Сумма перевода</span>
+                <span class="amountline"><input id="amt" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Сумма, тенге"><span class="cur">₸</span></span>
+                <span class="muted small" id="amtHint">С карты ••3107</span>
+                <span class="small" id="amtLimit"></span>
+              </label>
+              <div class="pillrow" id="quick">
+                <button class="pchip" data-act="quick" data-v="5000">5 000</button>
+                <button class="pchip" data-act="quick" data-v="20000">20 000</button>
+                <button class="pchip" data-act="quick" data-v="100000">100 000</button>
+                <button class="pchip" data-act="quick" data-v="480000">480 000</button>
+              </div>
+              <label class="check"><input type="checkbox" id="bigBuy"> Я сейчас совершаю крупную покупку</label>
+              <button class="btn" id="amtGo">Продолжить</button>
+            </div>
+          </div>
+
+          <div id="tabPay" class="view" hidden>
+            <div class="seg" role="group" aria-label="Тип платежа"><button aria-selected="true">Платежи</button><button aria-selected="false" disabled>Автоплатежи</button></div>
+            <div class="field"><input type="search" placeholder="Поиск по платежам" aria-label="Поиск по платежам" disabled></div>
+            <div id="payFavs"></div>
+            <div class="sect">Все платежи</div>
+            <div class="tiles" id="payTiles"></div>
+            <p class="muted small">В прототипе работают частые платежи, коммуналка и мебель. Частый платёж проверяется так же, как обычный перевод.</p>
+          </div>
+          <div id="tabHist" class="view" hidden></div>
+          <div id="tabSvc" class="view" hidden>
+            <div id="svcMain"></div>
+            <div id="svcProt" hidden></div>
+            <div id="svcLock" hidden></div>
+            <div id="svcLimits" hidden>
+              <button class="back" data-act="svc-back"><svg class="chev-l" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>Сервисы</button>
+              <div id="limInfo"></div>
+              <div class="switch limsw"><div><b>Лимит в день</b><small id="limDailyNote">Выключен. Включите, если хотите ограничить переводы за сутки.</small></div><button class="toggle" role="switch" aria-label="Лимит в день" aria-checked="false" id="limDailyOn"></button></div>
+              <div id="limDailyBox" hidden>
+                <div class="field"><label for="limDaily">В сутки, ₸</label><input id="limDaily" inputmode="numeric" autocomplete="off"></div>
+                <div class="limchips"><button class="pchip" data-act="lim-q" data-f="limDaily" data-v="50000">50 000</button><button class="pchip" data-act="lim-q" data-f="limDaily" data-v="100000">100 000</button><button class="pchip" data-act="lim-q" data-f="limDaily" data-v="200000">200 000</button></div>
+              </div>
+              <div class="switch limsw"><div><b>Лимит в месяц</b><small id="limMonthlyNote"></small></div><button class="toggle" role="switch" aria-label="Лимит в месяц" aria-checked="true" id="limMonthlyOn"></button></div>
+              <div id="limMonthlyBox">
+                <div class="field"><label for="limMonthly">В месяц, ₸</label><input id="limMonthly" inputmode="numeric" autocomplete="off"></div>
+                <div class="limchips"><button class="pchip" data-act="lim-q" data-f="limMonthly" data-v="400000">400 000</button><button class="pchip" data-act="lim-q" data-f="limMonthly" data-v="1000000">1 000 000</button><button class="pchip" data-act="lim-q" data-f="limMonthly" data-v="3000000">3 000 000</button></div>
+              </div>
+              <p class="err" id="limErr" role="alert"></p>
+              <button class="btn" id="limSave">Сохранить лимиты</button>
+              <p class="muted small">Понизить лимит можно сразу. Повысить — через период охлаждения, а доверенные лица получат уведомление: так мошенник не уговорит снять ограничение за минуту. Переводы по белому списку лимиты не трогают.</p>
+            </div>
+            <div id="svcCredit" hidden>
+              <button class="back" data-act="svc-back"><svg class="chev-l" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>Сервисы</button>
+              <h2>Рассрочка и кредит</h2>
+              <div class="field"><label for="crProd">Продукт</label><select id="crProd"><option value="goods">Рассрочка на товар в магазине</option><option value="cash">Кредит наличными на карту</option></select></div>
+              <div class="note info" id="crInfo"></div>
+              <div class="field"><label for="crAmt">Сумма, ₸</label><input id="crAmt" inputmode="numeric" value="300 000" autocomplete="off"></div>
+              <button class="btn" id="creditBtn">Оформить</button>
+              <p class="muted small">Симуляция продукта: в прототипе реальных кредитов нет.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="plate" id="plate" data-act="plate"></button>
+      <nav class="appnav" id="appnav" aria-label="Разделы"></nav>
+      <div class="overlay" id="overlay" hidden><div class="ov-backdrop" data-act="ov-backdrop"></div><div class="ov-panel" id="ovPanel" role="dialog" aria-modal="true"></div></div>
+      <div class="splash" id="splash" aria-hidden="true"><svg width="64" height="64" viewBox="0 0 44 44"><path d="M22 3 38 9v12c0 9.500-6.500 17-16 20C12.500 38 6 30.500 6 21V9z" fill="#4ca879"/><path d="M15 22.500l5 5 9-10" fill="none" stroke="#08210f" stroke-width="3.200" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Қорған</b></div>
+    </div></div>
+
+    <div class="sim" aria-label="Имитация сигналов">
+      <p class="coltitle" style="margin:0">Имитация сигналов устройства (эмуляция)</p>
+      <div><div class="muted" id="callLab" style="font-size:.85em;margin-bottom:6px;font-weight:600">Телефонный звонок</div>
+        <div class="seg2" id="callSeg" role="group" aria-labelledby="callLab">
+          <button data-v="none">Звонка нет</button><button data-v="active_known">Идёт: знакомый</button><button data-v="active_unknown">Идёт: незнакомый</button>
+          <button data-v="ended_known">Завершён: знакомый</button><button data-v="ended_unknown">Завершён: незнакомый</button>
+        </div></div>
+      <label class="check"><input type="checkbox" id="simNight"> Ночное время</label>
+      <label class="check"><input type="checkbox" id="simDevice"> Новое устройство (менее 24 ч)</label>
+      <label class="check"><input type="checkbox" id="simRemote"> Включён удалённый доступ</label>
+      <label class="check"><input type="checkbox" id="simCodes"> Недавно приходили коды входа (кто-то пытался войти)</label>
+      <p class="muted" style="margin:0;font-size:12px">В продакшене факт звонка даёт Android (на iOS ограниченно), номер знает только оператор связи или Антифрод-центр.</p>
+    </div>
+  </section>
+
+  <section aria-label="Доверенные лица">
+    <p class="coltitle" id="gTitle">Доверенное лицо</p>
+    <div class="phone"><div class="scr short">
+      <div class="statusbar" aria-hidden="true"><span>4:22</span><span>5G</span></div>
+      <div class="ahead"><div class="hrow"><div class="hello"><span class="avatar" id="gAv"></span><div><b>Қорған · Семья</b><small id="gSub">Вы подтверждаете первым</small></div></div></div></div>
+      <div class="sheet"><div id="gReqs"></div>
+        <label class="check"><input type="checkbox" id="busyG"> Я занят и не отвечаю (демо)</label><div id="gNotes"></div></div>
+    </div></div>
+    <p class="coltitle" id="sTitle">Второе доверенное лицо</p>
+    <div class="phone"><div class="scr short">
+      <div class="statusbar" aria-hidden="true"><span>4:22</span><span>5G</span></div>
+      <div class="ahead"><div class="hrow"><div class="hello"><span class="avatar" id="sAv"></span><div><b>Қорған · Семья</b><small>Второе доверенное лицо</small></div></div></div></div>
+      <div class="sheet"><div id="sReqs"></div>
+        <label class="check"><input type="checkbox" id="busyS"> Не отвечаю (демо)</label></div>
+    </div></div>
+  </section>
+
+  <section class="col-bank" aria-label="Банк">
+    <p class="coltitle">Оператор банка</p>
+    <div class="panel"><h3>Очередь подтверждений</h3><div id="opQueue"></div></div>
+    <div class="panel"><h3>Обращения клиентов <span id="clientBlock"></span></h3><div id="opIncidents"></div></div>
+    <div class="panel"><h3>Жалобы на доверенных лиц</h3><div id="opComplaints"></div></div>
+    <p class="coltitle">Аналитика банка</p>
+    <div class="panel"><h3>Показатели <span class="tag">синтетические данные</span></h3><div class="stats" id="stats"></div></div>
+    <div class="panel"><h3>Последняя оценка риска</h3><div id="lastScore"></div></div>
+    <details class="panel"><summary><h3>Журнал решений для споров и проверок <span id="auditOk"></span></h3></summary><div class="audit" id="audit"></div><p class="muted" style="font-size:12px;margin:8px 0 0"><button class="btn sec small" id="tamperBtn">Демо: испортить запись журнала</button></p></details>
+  </section>
+</div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>

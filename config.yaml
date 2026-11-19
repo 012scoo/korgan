@@ -1,0 +1,54 @@
+# «Қорған» — все числа правил живут здесь. Код не содержит порогов и баллов.
+# Время в движке считается в «минутах сценария».
+
+clock:
+  # Сколько реальных секунд длится одна минута сценария (демо: 1 с = 1 мин).
+  seconds_per_minute: 1
+  # Стартовая дата и время сценария (для расчёта рабочих дней удержания).
+  start: "2026-11-18T10:00:00"
+
+# В демо-режиме длинные сроки (24 ч, 48 ч, 5 рабочих дней) сжаты, см. demo_overrides.
+demo_mode: true
+
+scoring:
+  typical_amount: 40000        # обычная сумма перевода подопечного, ₸
+  large_amount: 100000         # «крупная сумма», ₸
+  huge_multiplier: 5           # «в N и более раз выше обычной»
+  points:
+    new_recipient: 25
+    flagged_recipient: 30
+    huge_amount: 25
+    large_amount: 10
+    call_unknown: 35
+    call_known: 5
+    night: 15
+    new_device: 10
+    whitelist: -30
+    big_purchase: -20
+  zones:
+    yellow_from: 30            # 30–69 жёлтая
+    red_from: 70               # 70+ красная
+
+protection:
+  recent_call_window_minutes: 10   # R0.2
+  disable_cooldown_hours: 24       # R0.6
+  new_device_hours: 24             # R0.6: на новом устройстве снять защиту нельзя
+  max_hold_working_days: 5         # R0.7
+
+escalation:
+  second_after_minutes: 5
+  operator_after_minutes: 15
+  operator_after_first_trusted_approval_minutes: 5   # красная зона: второй молчит после одобрения первого
+  max_decision_attempts: 5
+
+incidents:
+  initial_hold_hours: 48
+  antifraud_reply_minutes: 3       # эмуляция ответа Антифрод-центра
+  civil_min_history_months: 12
+  civil_max_complaints: 1
+
+# Значения в минутах сценария, применяются при demo_mode: true.
+demo_overrides:
+  disable_cooldown_minutes: 3
+  initial_hold_minutes: 20
+  max_hold_minutes: 60

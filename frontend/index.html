@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Қорған</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><path d="M22 3 38 9v12c0 9.500-6.500 17-16 20C12.500 38 6 30.500 6 21V9z" fill="var(--color-action)"/><path d="M15 22.500l5 5 9-10" fill="none" stroke="var(--color-on-action)" stroke-width="3.200" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <h1>Қорған</h1>
+        <p>Семейная защита операций: пауза при опасном переводе, подтверждение близких, оператор банка, помощь в первые 60 минут после обмана.</p>
+      </div>
+    </div>
+    <div class="topright">
+      <span class="tag">Прототип · синтетические данные · внешний мир эмулируется</span>
+      <button class="iconbtn" id="themeBtn">Тема</button>
+    </div>
+  </header>
+
+  <section class="scen" aria-label="Сценарии демо">
+    <div class="chips" id="scenChips"></div>
+    <div class="scenhint"><span class="clock" id="clock">Минута 0</span><span id="scenHint" class="muted"></span></div>
+  </section>
+
+  <div class="grid">
+    <section aria-label="Подопечный">
+      <p class="coltitle">Приложение подопечного (Нурлан-ата)</p>
+      <div class="phone" id="wardPhone"><div class="screen screenwrap">
+        <div class="apphead">
+          <div><strong id="wardHello">Сәлем, Нурлан-ата</strong><div class="sub" id="wardSub"></div></div>
+          <button class="iconbtn" id="fontBtn" aria-pressed="false" aria-label="Крупный шрифт">A+</button>
+        </div>
+        <div class="content">
+          <div id="wardAlerts"></div>
+
+          <div id="tabHome">
+            <div class="bankcard">
+              <div class="row"><span>Карта ••3107</span><button class="eye" id="eyeBtn" aria-pressed="false">Скрыть</button></div>
+              <div><div class="row">Баланс</div><div class="bal" id="bal"></div></div>
+            </div>
+            <div id="wardIncidents"></div>
+            <button class="btn sos" id="sosBtn1">Меня обманули</button>
+            <div class="sect">Последние операции</div>
+            <div class="txs" id="txs"></div>
+          </div>
+
+          <div id="tabTransfer" hidden>
+            <div class="sect">Перевод</div>
+            <div class="field"><label for="rec">Кому</label><select id="rec"></select></div>
+            <div class="field"><label for="amt">Сумма, ₸</label><input id="amt" type="number" min="1" step="500" inputmode="numeric"></div>
+            <label class="check"><input type="checkbox" id="bigBuy"> Я сейчас совершаю крупную покупку</label>
+            <button class="btn" id="sendBtn">Перевести</button>
+          </div>
+
+          <div id="tabCredit" hidden>
+            <div class="sect">Рассрочка и кредит (симуляция продукта)</div>
+            <div class="field"><label for="crProd">Продукт</label>
+              <select id="crProd"><option>Рассрочка на бытовую технику</option><option>Потребительский кредит</option></select></div>
+            <div class="field"><label for="crAmt">Сумма, ₸</label><input id="crAmt" type="number" min="1" step="1000" value="300000" inputmode="numeric"></div>
+            <button class="btn" id="creditBtn">Оформить</button>
+          </div>
+
+          <div id="tabProtect" hidden>
+            <div class="switchrow"><div><strong>Семейная защита</strong><small id="protSub"></small></div><button class="btn small" id="protBtn"></button></div>
+            <div class="switchrow"><div><strong>Кредитный замок</strong><small>Запрет на кредиты и рассрочки</small></div><button class="btn small" id="lockBtn"></button></div>
+            <div id="disableReqs"></div>
+            <div class="sect">Доверенные</div><div class="list" id="trustList"></div>
+            <div class="sect">Белый список</div><div class="list" id="whiteList"></div>
+            <div class="sect">Согласие</div><div class="note info" id="consentBox"></div>
+            <button class="btn sec" id="wizBtn">Настроить защиту</button>
+            <button class="btn sos" id="sosBtn2">Меня обманули</button>
+          </div>
+        </div>
+        <nav class="appnav" aria-label="Разделы">
+          <button data-tab="Home" aria-current="page"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Главная</button>
+          <button data-tab="Transfer"><svg viewBox="0 0 24 24"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg>Переводы</button>
+          <button data-tab="Credit"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Рассрочка</button>
+          <button data-tab="Protect"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Защита</button>
+        </nav>
+        <div class="overlay" id="overlay" hidden></div>
+      </div></div>
+
+      <div class="sim" aria-label="Имитация сигналов">
+        <p class="coltitle" style="margin:0">Имитация сигналов устройства (эмуляция)</p>
+        <div class="field"><label id="callLab">Телефонный звонок</label>
+          <div class="seg" id="callSeg" role="group" aria-labelledby="callLab">
+            <button data-v="none">Звонка нет</button>
+            <button data-v="active_known">Идёт: знакомый</button>
+            <button data-v="active_unknown">Идёт: незнакомый</button>
+            <button data-v="ended_known">Завершён: знакомый</button>
+            <button data-v="ended_unknown">Завершён: незнакомый</button>
+          </div></div>
+        <label class="check"><input type="checkbox" id="simNight"> Ночное время</label>
+        <label class="check"><input type="checkbox" id="simDevice"> Новое устройство (менее 24 ч)</label>
+        <label class="check"><input type="checkbox" id="simRemote"> Включён удалённый доступ</label>
+        <p class="muted" style="margin:0;font-size:12px">В продакшене: факт звонка даёт Android (на iOS ограниченно), номер — только оператор связи или Антифрод-центр.</p>
+      </div>
+    </section>
+
+    <section aria-label="Доверенные">
+      <p class="coltitle" id="gTitle">Опекун</p>
+      <div class="phone"><div class="screen short">
+        <div class="apphead"><div><strong>Қорған · Семья</strong><div class="sub" id="gSub">Вы опекун</div></div></div>
+        <div class="content"><div id="gReqs"></div>
+          <label class="check"><input type="checkbox" id="busyG"> Я занят и не отвечаю (демо)</label>
+          <div id="gNotes"></div></div>
+      </div></div>
+      <p class="coltitle" id="sTitle">Второй доверенный</p>
+      <div class="phone"><div class="screen short">
+        <div class="apphead"><div><strong>Қорған · Семья</strong><div class="sub">Второй доверенный</div></div></div>
+        <div class="content"><div id="sReqs"></div>
+          <label class="check"><input type="checkbox" id="busyS"> Не отвечаю (демо)</label></div>
+      </div></div>
+    </section>
+
+    <section class="col-bank" aria-label="Банк">
+      <p class="coltitle">Оператор банка</p>
+      <div class="panel"><h3>Очередь подтверждений</h3><div id="opQueue"></div></div>
+      <div class="panel"><h3>Заявления о спорных операциях <span id="clientBlock"></span></h3><div id="opIncidents"></div></div>
+      <p class="coltitle">Аналитика банка</p>
+      <div class="panel"><h3>Показатели <span class="tag">синтетические данные</span></h3><div class="stats" id="stats"></div></div>
+      <div class="panel"><h3>Последняя оценка риска</h3><div id="lastScore"></div></div>
+      <div class="panel"><h3>Журнал решений <span id="auditOk"></span></h3><div class="audit" id="audit"></div></div>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

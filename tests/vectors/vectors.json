@@ -1,0 +1,460 @@
+{
+  "about": "Общие тест-векторы движков «Қорған»: JS (standalone/parts/engine.js) и Python (backend/). Один файл, два прогона.",
+  "scoring": [
+    {
+      "name": "коммуналка из белого списка",
+      "signals": {
+        "amount": 3500,
+        "whitelisted": true
+      },
+      "expected": {
+        "score": 0,
+        "zone": "green",
+        "codes": [
+          "whitelist"
+        ]
+      }
+    },
+    {
+      "name": "знакомому, обычная сумма",
+      "signals": {
+        "amount": 20000
+      },
+      "expected": {
+        "score": 0,
+        "zone": "green",
+        "codes": []
+      }
+    },
+    {
+      "name": "новый получатель, обычная сумма",
+      "signals": {
+        "amount": 50000,
+        "new_recipient": true
+      },
+      "expected": {
+        "score": 25,
+        "zone": "green",
+        "codes": [
+          "new_recipient"
+        ]
+      }
+    },
+    {
+      "name": "новый получатель, крупная",
+      "signals": {
+        "amount": 120000,
+        "new_recipient": true
+      },
+      "expected": {
+        "score": 35,
+        "zone": "yellow",
+        "codes": [
+          "new_recipient",
+          "large_amount"
+        ]
+      }
+    },
+    {
+      "name": "звонок мошенника + новый + огромная",
+      "signals": {
+        "amount": 480000,
+        "new_recipient": true,
+        "flagged_recipient": true,
+        "call": "unknown"
+      },
+      "expected": {
+        "score": 100,
+        "zone": "red",
+        "codes": [
+          "new_recipient",
+          "flagged_recipient",
+          "huge_amount",
+          "call_unknown"
+        ]
+      }
+    },
+    {
+      "name": "после звонка незнакомого, новый, крупная",
+      "signals": {
+        "amount": 150000,
+        "new_recipient": true,
+        "call": "unknown"
+      },
+      "expected": {
+        "score": 70,
+        "zone": "red",
+        "codes": [
+          "new_recipient",
+          "large_amount",
+          "call_unknown"
+        ]
+      }
+    },
+    {
+      "name": "крупная покупка с режимом покупки",
+      "signals": {
+        "amount": 480000,
+        "new_recipient": true,
+        "big_purchase": true
+      },
+      "expected": {
+        "score": 30,
+        "zone": "yellow",
+        "codes": [
+          "new_recipient",
+          "huge_amount",
+          "big_purchase"
+        ]
+      }
+    },
+    {
+      "name": "крупная покупка без режима",
+      "signals": {
+        "amount": 480000,
+        "new_recipient": true
+      },
+      "expected": {
+        "score": 50,
+        "zone": "yellow",
+        "codes": [
+          "new_recipient",
+          "huge_amount"
+        ]
+      }
+    },
+    {
+      "name": "ночь + новое устройство + новый",
+      "signals": {
+        "amount": 30000,
+        "new_recipient": true,
+        "night": true,
+        "new_device": true
+      },
+      "expected": {
+        "score": 50,
+        "zone": "yellow",
+        "codes": [
+          "new_recipient",
+          "night",
+          "new_device"
+        ]
+      }
+    },
+    {
+      "name": "звонок знакомого во время перевода внуку",
+      "signals": {
+        "amount": 60000,
+        "whitelisted": true,
+        "call": "known"
+      },
+      "expected": {
+        "score": 0,
+        "zone": "green",
+        "codes": [
+          "call_known",
+          "whitelist"
+        ]
+      }
+    },
+    {
+      "name": "подозрительный получатель без звонка",
+      "signals": {
+        "amount": 90000,
+        "new_recipient": true,
+        "flagged_recipient": true
+      },
+      "expected": {
+        "score": 55,
+        "zone": "yellow",
+        "codes": [
+          "new_recipient",
+          "flagged_recipient"
+        ]
+      }
+    },
+    {
+      "name": "ровно порог крупной суммы",
+      "signals": {
+        "amount": 100000
+      },
+      "expected": {
+        "score": 10,
+        "zone": "green",
+        "codes": [
+          "large_amount"
+        ]
+      }
+    },
+    {
+      "name": "ровно порог огромной суммы",
+      "signals": {
+        "amount": 200000,
+        "new_recipient": true
+      },
+      "expected": {
+        "score": 50,
+        "zone": "yellow",
+        "codes": [
+          "new_recipient",
+          "huge_amount"
+        ]
+      }
+    },
+    {
+      "name": "белый список не уводит в минус",
+      "signals": {
+        "amount": 1000,
+        "whitelisted": true,
+        "big_purchase": true
+      },
+      "expected": {
+        "score": 0,
+        "zone": "green",
+        "codes": [
+          "whitelist",
+          "big_purchase"
+        ]
+      }
+    }
+  ],
+  "ladder": [
+    {
+      "name": "Средняя зона: доверенные лица молчат, самоподтверждения нет",
+      "scenario": 3,
+      "steps": [
+        {
+          "do": "busy",
+          "guardian": true,
+          "second": true
+        },
+        {
+          "do": "transfer",
+          "rid": "repair",
+          "amount": 120000
+        },
+        {
+          "expect": {
+            "zone": "yellow",
+            "status": "HELD",
+            "notified": [
+              "guardian"
+            ]
+          }
+        },
+        {
+          "do": "advance_to",
+          "minute": 5.5
+        },
+        {
+          "expect": {
+            "notified": [
+              "guardian",
+              "second"
+            ]
+          }
+        },
+        {
+          "do": "advance_to",
+          "minute": 10.5
+        },
+        {
+          "expect": {
+            "not_notified": [
+              "ward"
+            ]
+          }
+        },
+        {
+          "do": "decide",
+          "actor": "ward",
+          "decision": "approve",
+          "called": false,
+          "error": "SELF_CONFIRM_UNAVAILABLE"
+        },
+        {
+          "expect": {
+            "status": "HELD"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Средняя зона: никто не решил — отмена по сроку",
+      "scenario": 3,
+      "steps": [
+        {
+          "do": "busy",
+          "guardian": true,
+          "second": true
+        },
+        {
+          "do": "transfer",
+          "rid": "repair",
+          "amount": 120000
+        },
+        {
+          "do": "advance_to",
+          "minute": 61
+        },
+        {
+          "expect": {
+            "status": "EXPIRED"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Красная зона: нужны два подтверждения",
+      "scenario": 1,
+      "steps": [
+        {
+          "do": "sim",
+          "call": "ended_unknown"
+        },
+        {
+          "do": "transfer",
+          "rid": "stranger",
+          "amount": 480000
+        },
+        {
+          "expect": {
+            "zone": "red",
+            "status": "HELD"
+          }
+        },
+        {
+          "do": "decide",
+          "actor": "guardian",
+          "decision": "approve",
+          "result": "waiting"
+        },
+        {
+          "expect": {
+            "status": "HELD",
+            "notified": [
+              "guardian",
+              "second"
+            ]
+          }
+        },
+        {
+          "do": "decide",
+          "actor": "second",
+          "decision": "approve"
+        },
+        {
+          "expect": {
+            "status": "EXECUTED"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Красная зона: второй молчит — сотрудник через 5 минут после первого",
+      "scenario": 1,
+      "steps": [
+        {
+          "do": "sim",
+          "call": "ended_unknown"
+        },
+        {
+          "do": "transfer",
+          "rid": "stranger",
+          "amount": 480000
+        },
+        {
+          "do": "advance_to",
+          "minute": 2
+        },
+        {
+          "do": "decide",
+          "actor": "guardian",
+          "decision": "approve"
+        },
+        {
+          "do": "advance_to",
+          "minute": 6.5
+        },
+        {
+          "expect": {
+            "not_notified": [
+              "operator"
+            ]
+          }
+        },
+        {
+          "do": "advance_to",
+          "minute": 7.5
+        },
+        {
+          "expect": {
+            "notified": [
+              "guardian",
+              "second",
+              "operator"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Один отказ останавливает",
+      "scenario": 1,
+      "steps": [
+        {
+          "do": "sim",
+          "call": "ended_unknown"
+        },
+        {
+          "do": "transfer",
+          "rid": "stranger",
+          "amount": 480000
+        },
+        {
+          "do": "decide",
+          "actor": "guardian",
+          "decision": "reject"
+        },
+        {
+          "expect": {
+            "status": "REJECTED"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Во время звонка перевод заблокирован (АРРФР)",
+      "scenario": 1,
+      "steps": [
+        {
+          "do": "sim",
+          "call": "active_unknown"
+        },
+        {
+          "do": "transfer",
+          "rid": "stranger",
+          "amount": 480000,
+          "error": "CALL_ACTIVE"
+        }
+      ]
+    },
+    {
+      "name": "Белый список проходит сразу",
+      "scenario": 1,
+      "steps": [
+        {
+          "do": "transfer",
+          "rid": "utility",
+          "amount": 3500
+        },
+        {
+          "expect": {
+            "status": "EXECUTED",
+            "zone": "green"
+          }
+        }
+      ]
+    }
+  ]
+}
